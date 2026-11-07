@@ -935,8 +935,10 @@ void MainWindow::on_pushButton_about_clicked()
     QString line8 = "Icons made by : Freepik & Icongeek26 & Roundicons From Flaticon(https://www.flaticon.com/)";
     MSG->setText(line1+line2+line3+line4+line5+line6+line7+line8);
     QImage img(":/new/prefix1/icon/icon_main.png");
-    QImage img_scaled = img.scaled(50,50,Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    const qreal dpr = this->devicePixelRatioF();//按屏幕实际像素缩放图标,避免高DPI下模糊
+    QImage img_scaled = img.scaled(qRound(50*dpr),qRound(50*dpr),Qt::KeepAspectRatio,Qt::SmoothTransformation);
     QPixmap pix(QPixmap::fromImage(img_scaled));
+    pix.setDevicePixelRatio(dpr);
     MSG->setIconPixmap(pix);
     MSG->setModal(false);
     MSG->show();
